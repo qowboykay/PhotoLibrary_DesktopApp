@@ -2,6 +2,14 @@
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "lib/**/*.jar",
+        "/Users/brayandominguez/Downloads/javafx-sdk-21.0.1/lib/javafx-swt.jar",
+        "/Users/brayandominguez/Downloads/javafx-sdk-21.0.1/lib/javafx.base.jar",
+        "/Users/brayandominguez/Downloads/javafx-sdk-21.0.1/lib/javafx.controls.jar",
+        "/Users/brayandominguez/Downloads/javafx-sdk-21.0.1/lib/javafx.fxml.jar",
+        "/Users/brayandominguez/Downloads/javafx-sdk-21.0.1/lib/javafx.graphics.jar",
+        "/Users/brayandominguez/Downloads/javafx-sdk-21.0.1/lib/javafx.media.jar",
+        "/Users/brayandominguez/Downloads/javafx-sdk-21.0.1/lib/javafx.swing.jar",
+        "/Users/brayandominguez/Downloads/javafx-sdk-21.0.1/lib/javafx.web.jar"
     ]
 }
