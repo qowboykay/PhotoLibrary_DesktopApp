@@ -1,4 +1,4 @@
-package hellofx;
+package chess;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
