@@ -1,4 +1,4 @@
-package Photos;
+package photos.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

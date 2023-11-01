@@ -1,4 +1,4 @@
-package Photos;
+package photos.app;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -6,11 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Photos extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("hellofx.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/photos/view/hellofx.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 400, 300));
         primaryStage.show();
