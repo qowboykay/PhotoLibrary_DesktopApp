@@ -1,4 +1,4 @@
-package chess;
+package Photos;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
