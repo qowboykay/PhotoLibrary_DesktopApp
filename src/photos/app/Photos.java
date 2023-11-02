@@ -10,9 +10,10 @@ public class Photos extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/photos/view/hellofx.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 400, 300));
+        Parent root = FXMLLoader.load(getClass().getResource("/photos/view/login.fxml"));
+        primaryStage.setTitle("Photos");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
