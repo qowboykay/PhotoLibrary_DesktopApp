@@ -1,10 +1,10 @@
 package photos.app;
 
-public class Albums {
+public class Album {
 
     private String albumName;
 
-    public Albums(String albumName){
+    public Album(String albumName){
         this.albumName = albumName;
     }
 
@@ -21,5 +21,8 @@ public class Albums {
         this.albumName = albumName;
     }
 
+    public void addPicture(){
+        
+    }
     
 }

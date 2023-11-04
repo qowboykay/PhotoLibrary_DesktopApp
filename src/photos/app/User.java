@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class User {
 
     private String username; 
-    private final ArrayList<Albums> album;
+    private final ArrayList<Album> albumList;
 
     public User(String username){
         this.username = username;
-        this.album= new ArrayList<>();
+        this.albumList = new ArrayList<>();
     }
 
     public void setNewUsername(String username){
@@ -20,16 +20,16 @@ public class User {
         return username;
     }
 
-    public void addAlbum(Albums album){
-        this.album.add(album);
+    public void addAlbum(Album album){
+        this.albumList.add(album);
     }
 
     public int getNumberofAlbums(){
-        return this.album.size();
+        return albumList.size();
     }
     
-    public ArrayList<Albums> getListOfUserAlbums(){
-       return this.album;
+    public ArrayList<Album> getListOfUserAlbums(){
+       return albumList;
     }
     
     @Override
