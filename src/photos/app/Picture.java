@@ -1,8 +1,9 @@
 package photos.app;
 
 import java.util.*;
+import java.io.*;
 
-public class Picture {
+public class Picture implements Serializable{
     
     private String picturePath;
     private String caption;
@@ -39,4 +40,7 @@ public class Picture {
         newTag.addTagValue(tagValue);
     }
 
+    public ArrayList<Tag> getPictureTags(){
+        return tags;
+    }
 }

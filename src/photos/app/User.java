@@ -2,7 +2,7 @@ package photos.app;
 
 import java.util.ArrayList;
 
-public class User {
+public class User{
 
     private String username; 
     private final ArrayList<Album> albumList;
