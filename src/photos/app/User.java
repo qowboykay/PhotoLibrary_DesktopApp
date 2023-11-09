@@ -1,19 +1,31 @@
 package photos.app;
 
+import java.io.*;
 import java.util.ArrayList;
 
-public class User{
+public class User implements Serializable{
 
+    static final long serialVersionUID = 1L;
     private String username; 
+    private String password;
     private final ArrayList<Album> albumList;
+    
 
-    public User(String username){
+    public User(String username,String password){
         this.username = username;
+        this.password = password;
         this.albumList = new ArrayList<>();
     }
 
     public void setNewUsername(String username){
         this.username = username;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+    public String getPassword(){
+        return password;
     }
 
     public String getUsername(){

@@ -1,5 +1,5 @@
 package photos.view;
 
-public class editPictureController {
+public class EditPictureController {
     
 }

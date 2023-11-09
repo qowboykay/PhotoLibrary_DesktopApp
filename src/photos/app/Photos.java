@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Photos extends Application {
@@ -17,8 +16,10 @@ public class Photos extends Application {
         try{
             Parent loginRoot = FXMLLoader.load(getClass().getResource("/photos/view/login.fxml"));
             Stage loginStage = new Stage();
+            loginStage = primaryStage;
             loginStage.setTitle("Login");
             loginStage.setScene(new Scene(loginRoot));
+            loginStage.setResizable(false);
             loginStage.show();
         }
         catch(IOException e){

@@ -48,7 +48,13 @@ public class AllUsers implements Serializable {
             AllUsers allUsers = (AllUsers)ois.readObject();
             return allUsers;
         }
-   
+    }
+/**
+ * Returns a boolean of TRUE if it contains no elements, otherwise it returns FALSE.
+ * @return
+ */
+    public boolean isEmpty(){
+       return allUsers.isEmpty();
     }
 }
     

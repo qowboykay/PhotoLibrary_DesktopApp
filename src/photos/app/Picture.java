@@ -1,10 +1,11 @@
 package photos.app;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Picture implements Serializable{
     
+    static final long serialVersionUID = 1L;
     private String picturePath;
     private String caption;
     private ArrayList<Tag> tags;
@@ -35,9 +36,8 @@ public class Picture implements Serializable{
 
     }
 
-    public void addTag(String tagName, String tagValue){
-        Tag newTag = new Tag(tagName);
-        newTag.addTagValue(tagValue);
+    public void addTag(Tag tag){
+        this.tags.add(tag);
     }
 
     public ArrayList<Tag> getPictureTags(){
