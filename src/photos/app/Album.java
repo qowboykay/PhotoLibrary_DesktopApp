@@ -2,6 +2,7 @@ package photos.app;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Album implements Serializable {
 
@@ -44,4 +45,42 @@ public class Album implements Serializable {
     public ArrayList<Picture> returnPictures(){
         return pics;
     }
+
+    // Method to search photos by date range
+    public List<Picture> searchPicturesByDate(Calendar startDate, Calendar endDate) {
+        return pics.stream()
+                .filter(picture -> picture.isWithinDateRange(startDate, endDate))
+                .collect(Collectors.toList());
+    }
+
+    // Method to search photos by a single tag-value pair
+    public List<Picture> searchPicturesByTag(String tagName, String tagValue) {
+        return pics.stream()
+                .filter(picture -> picture.hasTag(tagName, tagValue))
+                .collect(Collectors.toList());
+    }
+
+    public List<Picture> searchPicturesByTagsConjunctive(Map<String, String> tags) {
+        return pics.stream()
+                .filter(picture -> tags.entrySet().stream()
+                        .allMatch(entry -> picture.hasTag(entry.getKey(), entry.getValue())))
+                .collect(Collectors.toList());
+    }
+
+    public List<Picture> searchPicturesByTagsDisjunctive(Map<String, String> tags) {
+        return pics.stream()
+                .filter(picture -> tags.entrySet().stream()
+                        .anyMatch(entry -> picture.hasTag(entry.getKey(), entry.getValue())))
+                .collect(Collectors.toList());
+    }
+    public Album createAlbumFromSearchResults(String newAlbumName, List<Picture> searchResults) {
+        Album newAlbum = new Album(newAlbumName);
+        for (Picture pic : searchResults) {
+            newAlbum.addPicture(pic);
+        }
+        return newAlbum;
+    }
+
+
 }
+

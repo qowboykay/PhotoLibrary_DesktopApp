@@ -2,6 +2,9 @@ package photos.app;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class User implements Serializable{
 
@@ -47,5 +50,19 @@ public class User implements Serializable{
     @Override
     public String toString(){
         return "User(" + "username=" + username + ")";
+    }
+
+    // Method to search photos by date across all albums
+    public List<Picture> searchPicturesByDate(Calendar startDate, Calendar endDate) {
+        return albumList.stream()
+                .flatMap(album -> album.searchPicturesByDate(startDate, endDate).stream())
+                .collect(Collectors.toList());
+    }
+
+    // Method to search photos by tag across all albums
+    public List<Picture> searchPicturesByTag(String tagName, String tagValue) {
+        return albumList.stream()
+                .flatMap(album -> album.searchPicturesByTag(tagName, tagValue).stream())
+                .collect(Collectors.toList());
     }
 }

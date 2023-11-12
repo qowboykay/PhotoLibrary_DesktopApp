@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import photos.app.*;
 import java.io.*;
 
-public class LoginController {
+public class loginController {
 
     
     private AllUsers allUsers;
@@ -30,7 +30,7 @@ public class LoginController {
     @FXML
     private Button loginButton;
 
-    public LoginController(){
+    public loginController(){
         allUsers = new AllUsers();
     }
 
