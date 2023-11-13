@@ -57,15 +57,15 @@ public class loginController {
        //AlbumController albumController = new AlbumController(user);
 
     }
-    
     public void initialize() throws IOException, ClassNotFoundException {
         if(allUsers.isEmpty()){
             User newUser = new User("stock","stock");
             allUsers.addUser(newUser);
-            AllUsers.setAllUsers(allUsers);
-        }
-        else{
+            allUsers.saveData(); // Use the saveData method
+        } else {
             allUsers = AllUsers.getAllUsers();
         }
     }
+
+
 }

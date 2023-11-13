@@ -1,60 +1,64 @@
 package photos.app;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
 
 public class AllUsers implements Serializable {
 
     private ArrayList<User> allUsers;
     static final long serialVersionUID = 1L;
-    public static final String storeFile= "filestorage.dat";
+    public static final String storeFile = "filestorage.dat";
 
-    public AllUsers(){
+    public AllUsers() {
         this.allUsers = new ArrayList<>();
     }
-    
-    public void addUser(User user){
+
+    public void addUser(User user) {
         this.allUsers.add(user);
     }
 
-    public void removeUser(String username){
+    public void removeUser(String username) {
         allUsers.removeIf(user -> user.getUsername().equals(username));
     }
 
-    public User searchForUser(String username){
+    public User searchForUser(String username) {
         for (User user : allUsers) {
             if (user.getUsername().equals(username)) {
-                return user; 
+                return user;
             }
         }
         return null;
     }
 
-    public void editUsername(String Old, String New){
+    public void editUsername(String oldUsername, String newUsername) {
         for (User user : allUsers) {
-            if (user.getUsername().equals(Old)) {
-                user.setNewUsername(New);
+            if (user.getUsername().equals(oldUsername)) {
+                user.setNewUsername(newUsername);
             }
         }
     }
-    public static void setAllUsers(AllUsers allUsers) throws IOException, IOException {
+
+    /**
+     * Serializes and saves the current state of all users to a file.
+     * @throws IOException If an I/O error occurs during writing to the file.
+     */
+    public void saveData() throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeFile))) {
-            oos.writeObject(allUsers);
+            oos.writeObject(this);
         }
     }
 
     public static AllUsers getAllUsers() throws IOException, ClassNotFoundException {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(storeFile))) {
-            AllUsers allUsers = (AllUsers)ois.readObject();
-            return allUsers;
+            return (AllUsers) ois.readObject();
         }
     }
-/**
- * Returns a boolean of TRUE if it contains no elements, otherwise it returns FALSE.
- * @return
- */
-    public boolean isEmpty(){
-       return allUsers.isEmpty();
+
+    public ArrayList<User> getUserList() {
+        return this.allUsers;
+    }
+
+    public boolean isEmpty() {
+        return allUsers.isEmpty();
     }
 }
-    
