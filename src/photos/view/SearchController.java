@@ -48,5 +48,5 @@ public class SearchController {
         searchResultsListView.setItems(observableResults);
     }
 
-    // Additional methods for other functionalities
-} //
+
+}
