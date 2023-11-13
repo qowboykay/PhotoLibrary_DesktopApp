@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+    <VBox spacing="10.0" layoutX="10" layoutY="10">
+        <Text text="Albums"/>
+        <ListView fx:id="albumListView" prefHeight="200.0" prefWidth="580.0" />
+        <HBox spacing="5.0">
+            <TextField fx:id="albumNameField" promptText="Enter album name" prefWidth="300.0"/>
+            <Button text="Create Album" onAction="#onCreateAlbumButtonClicked" fx:id="createAlbumButton"/>
+            <Button text="Delete Album" onAction="#onDeleteAlbumButtonClicked" fx:id="deleteAlbumButton"/>
+            <Button text="Rename Album" onAction="#onRenameAlbumButtonClicked" fx:id="renameAlbumButton"/>
+            <Button text="Open Album" onAction="#onOpenAlbumButtonClicked" fx:id="openAlbumButton"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
