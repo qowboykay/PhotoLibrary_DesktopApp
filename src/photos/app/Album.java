@@ -81,6 +81,10 @@ public class Album implements Serializable {
         return newAlbum;
     }
 
+    @Override
+    public String toString() {
+        return albumName;
+    }
 
 }
 

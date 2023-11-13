@@ -60,5 +60,12 @@ public class Picture implements Serializable {
         // not reset each time this method is called
         return (cal.equals(startDate) || cal.after(startDate)) && (cal.equals(endDate) || cal.before(endDate));
     }
+    
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "caption='" + caption + '\'' +
+                '}';
+    }
 
 }

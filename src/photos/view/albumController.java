@@ -38,6 +38,7 @@ public class albumController {
             Album newAlbum = new Album(albumName);
             currentUser.addAlbum(newAlbum);
             albumListView.getItems().add(newAlbum);
+            albumListView.refresh();
         }
     }
 

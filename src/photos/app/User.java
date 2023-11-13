@@ -49,7 +49,7 @@ public class User implements Serializable{
     
     @Override
     public String toString(){
-        return "User(" + "username=" + username + ")";
+        return username;
     }
 
     // Method to search photos by date across all albums
@@ -65,4 +65,5 @@ public class User implements Serializable{
                 .flatMap(album -> album.searchPicturesByTag(tagName, tagValue).stream())
                 .collect(Collectors.toList());
     }
+    
 }

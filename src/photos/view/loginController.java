@@ -62,7 +62,7 @@ public class loginController {
         root = loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        stage.setTitle("Albums");
+        stage.setTitle("Welcome to Your Albums" + " " + username.getText() + "!");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
