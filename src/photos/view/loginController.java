@@ -46,7 +46,7 @@ public class loginController {
                 loginForAdmin(event,allUsers);
             }
                 else{
-                    loginForUsers(event,allUsers.searchForUser(user));
+                    loginForUsers(event,allUsers.searchForUser(user),allUsers);
                 }
         }
         else{
@@ -55,8 +55,8 @@ public class loginController {
         }
     }
     
-    public void loginForUsers(ActionEvent event, User user) throws Exception{
-        albumController album = new albumController(user);
+    public void loginForUsers(ActionEvent event, User user, AllUsers allUsers) throws Exception{
+        albumController album = new albumController(user,allUsers);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/album.fxml"));
         loader.setController(album);
         root = loader.load();
@@ -85,6 +85,7 @@ public class loginController {
 
 
     public void initialize() throws IOException, ClassNotFoundException {
+        allUsers = AllUsers.getAllUsers();
         if(allUsers.isEmpty()){
             User newUser = new User("stock","stock");
             User admin = new User("admin","admin");

@@ -8,16 +8,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
-    <VBox spacing="10.0" layoutX="10" layoutY="10">
-        <Text text="Albums"/>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox layoutX="10" layoutY="10" spacing="10.0">
+        <Text text="Albums" />
         <ListView fx:id="albumListView" prefHeight="200.0" prefWidth="580.0" />
-        <HBox spacing="5.0">
-            <TextField fx:id="albumNameField" promptText="Enter album name" prefWidth="300.0"/>
-            <Button text="Create Album" onAction="#onCreateAlbumButtonClicked" fx:id="createAlbumButton"/>
-            <Button text="Delete Album" onAction="#onDeleteAlbumButtonClicked" fx:id="deleteAlbumButton"/>
-            <Button text="Rename Album" onAction="#onRenameAlbumButtonClicked" fx:id="renameAlbumButton"/>
-            <Button text="Open Album" onAction="#onOpenAlbumButtonClicked" fx:id="openAlbumButton"/>
+        <HBox prefWidth="700.0" spacing="5.0">
+            <TextField fx:id="albumNameField" prefWidth="300.0" promptText="Enter album name" />
+            <Button fx:id="createAlbumButton" onAction="#onCreateAlbumButtonClicked" text="Create Album" />
+            <Button fx:id="deleteAlbumButton" onAction="#onDeleteAlbumButtonClicked" text="Delete Album" />
+            <Button fx:id="openAlbumButton" onAction="#onOpenAlbumButtonClicked" text="Open Album" />
+            <Button fx:id="renameAlbumButton" onAction="#onRenameAlbumButtonClicked" text="Rename Album" />
         </HBox>
     </VBox>
+   <VBox alignment="BOTTOM_RIGHT" layoutX="590.0" layoutY="286.0" prefHeight="100.0" prefWidth="106.0" spacing="10.0" AnchorPane.bottomAnchor="14.0">
+      <children>
+         <Button fx:id="logoutButton" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#onLogoutButtonClicked" prefHeight="29.0" prefWidth="85.0" text="Logout" />
+         <Button fx:id="exitButton" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#onExitButtonClicked" prefHeight="29.0" prefWidth="85.0" text="Exit" />
+      </children>
+   </VBox>
 </AnchorPane>
