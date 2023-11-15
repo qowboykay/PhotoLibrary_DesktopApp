@@ -27,7 +27,7 @@ public class loginController {
     private TextField username;
 
     @FXML 
-    private TextField password;
+    private PasswordField password;
 
     @FXML
     private Button loginButton;
@@ -76,7 +76,7 @@ public class loginController {
         root = loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        stage.setTitle("Admin");
+        stage.setTitle("Admin Window");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();

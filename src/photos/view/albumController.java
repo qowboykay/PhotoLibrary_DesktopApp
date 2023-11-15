@@ -28,7 +28,6 @@ public class albumController {
     @FXML private Button exitButton;
     @FXML private Button logoutButton;
 
-    private Parent root;
     private Scene scene;
     private Stage stage;
     private User currentUser;

@@ -55,7 +55,7 @@ public class AllUsers implements Serializable {
     }
 
     public ArrayList<User> getUserList() {
-        return this.allUsers;
+        return allUsers;
     }
 
     public boolean isEmpty() {
