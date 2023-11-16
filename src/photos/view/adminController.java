@@ -2,7 +2,6 @@ package photos.view;
 
 import photos.app.AllUsers;
 import photos.app.User;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,8 +38,7 @@ public class adminController {
 
     @FXML
     public void initialize(){
-        ObservableList<User> users = FXCollections.observableArrayList(allUsers.getUserList().stream()
-        .filter(user -> !user.getUsername().equals("admin")).collect(Collectors.toList()));
+        ObservableList<User> users = FXCollections.observableArrayList(allUsers.getUserList());
         userListView.setItems(users);
         userListView.getItems();
         userListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -83,11 +81,19 @@ public class adminController {
     }
 
     public void handleNewUser(String username ,String password) throws IOException{
+       boolean userExists = allUsers.getUserList().stream().anyMatch(user -> user.getUsername().equals(username));
+       if(userExists){
+        Alert error = new Alert(AlertType.ERROR,"User already exists", ButtonType.OK);
+        error.showAndWait();
+       }
+       else{
         User newUser = new User(username, password);
         allUsers.addUser(newUser);
         userListView.getItems().add(newUser);
         userListView.refresh();
         allUsers.saveData();
+       }
+
     }
 
     @FXML

@@ -17,6 +17,8 @@ public class SearchController {
     @FXML private TextField tagValueField;
     @FXML private ListView<Picture> searchResultsListView;
 
+    @FXML private Button searchButton;
+
     private User currentUser; // The current user
 
     // Constructor to set the current user

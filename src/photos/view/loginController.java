@@ -5,7 +5,6 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -89,6 +88,10 @@ public class loginController {
         if(allUsers.isEmpty()){
             User newUser = new User("stock","stock");
             User admin = new User("admin","admin");
+            Album newAlbum = new Album("stock");
+            Picture newPic = new Picture("data/ducky.jpg","ducky");
+            newAlbum.addPicture(newPic);
+            newUser.addAlbum(newAlbum);
             allUsers.addUser(newUser);
             allUsers.addUser(admin);
             allUsers.saveData(); // Use the saveData method
