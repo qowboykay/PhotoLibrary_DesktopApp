@@ -17,7 +17,7 @@ import photos.app.AllUsers;
 import javafx.stage.*;
 import javafx.scene.*;
 
-public class albumController {
+public class albumsListController {
 
     @FXML private ListView<Album> albumListView;
     @FXML private TextField albumNameField;
@@ -33,7 +33,7 @@ public class albumController {
     private User currentUser;
     private AllUsers allUsers;
 
-    public albumController(User currentUser, AllUsers allUsers) {
+    public albumsListController(User currentUser, AllUsers allUsers) {
         this.currentUser = currentUser;
         this.allUsers = allUsers;
     }
@@ -54,14 +54,29 @@ public class albumController {
             albumListView.getItems().add(newAlbum);
             albumListView.refresh();
         }
+        else{
+             // Handle the case where no album is selected
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Please enter an album name to create a new album.", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
     @FXML
     protected void onDeleteAlbumButtonClicked() {
         Album selectedAlbum = albumListView.getSelectionModel().getSelectedItem();
         if (selectedAlbum != null) {
-            currentUser.getListOfUserAlbums().remove(selectedAlbum);
-            albumListView.getItems().remove(selectedAlbum);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this album?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+    
+            if (alert.getResult() == ButtonType.YES) {
+                currentUser.getListOfUserAlbums().remove(selectedAlbum);
+                albumListView.getItems().remove(selectedAlbum);
+            }
+        }
+        else{
+             // Handle the case where no album is selected
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Please select an album to delete.", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
@@ -74,13 +89,33 @@ public class albumController {
             // Refresh the ListView to show the updated name
             albumListView.refresh();
         }
+        else{
+             // Handle the case where no album is selected
+            Alert alert = new Alert(Alert.AlertType.WARNING, "An album has not been selected or the album name field is blank.", ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
     @FXML
-    protected void onOpenAlbumButtonClicked() {
+    protected void onOpenAlbumButtonClicked() throws IOException {
         Album selectedAlbum = albumListView.getSelectionModel().getSelectedItem();
         if (selectedAlbum != null) {
-            // TODO: Open the selected album
+            allUsers.saveData();
+            albumViewController album = new albumViewController(selectedAlbum);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/albumView.fxml"));
+            loader.setController(album);
+            album.setAlbumListController(this);
+            stage = (Stage) openAlbumButton.getScene().getWindow();
+            scene = new Scene(loader.load());
+            stage.setScene(scene);
+            stage.setTitle("Welcome to" + " " +selectedAlbum.getAlbumName() + " " + "album!");
+            stage.centerOnScreen();
+            stage.show();
+        }
+        else {
+            // Handle the case where no album is selected
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Please select an album to open.", ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
@@ -101,10 +136,6 @@ public class albumController {
         stage.centerOnScreen();
         stage.show();
     }
-
-
-
-    // Additional methods for handling photos within an album can be added here
 }
 
 

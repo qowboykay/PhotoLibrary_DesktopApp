@@ -55,8 +55,8 @@ public class loginController {
     }
     
     public void loginForUsers(ActionEvent event, User user, AllUsers allUsers) throws Exception{
-        albumController album = new albumController(user,allUsers);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/album.fxml"));
+        albumsListController album = new albumsListController(user,allUsers);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/albumsList.fxml"));
         loader.setController(album);
         root = loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -89,7 +89,7 @@ public class loginController {
             User newUser = new User("stock","stock");
             User admin = new User("admin","admin");
             Album newAlbum = new Album("stock");
-            Picture newPic = new Picture("data/ducky.jpg","ducky");
+            Picture newPic = new Picture("/Photos82/data/ducky.jpg","ducky");
             newAlbum.addPicture(newPic);
             newUser.addAlbum(newAlbum);
             allUsers.addUser(newUser);

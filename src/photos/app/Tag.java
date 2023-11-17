@@ -29,4 +29,9 @@ public class Tag implements Serializable{
         tagValues.removeIf(element -> equals(tagValue));
         
     }
+
+    @Override
+    public String toString(){
+        return tagName +": " + tagValues;
+    }
 }
