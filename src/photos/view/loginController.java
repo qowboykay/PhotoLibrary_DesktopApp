@@ -89,8 +89,10 @@ public class loginController {
             User newUser = new User("stock","stock");
             User admin = new User("admin","admin");
             Album newAlbum = new Album("stock");
-            Picture newPic = new Picture("/Photos82/data/ducky.jpg","ducky");
+            Picture newPic = new Picture("data/ducky.jpg","ducky");
+            Picture newPic2 = new Picture("data/meowth.jpg","meowth");
             newAlbum.addPicture(newPic);
+            newAlbum.addPicture(newPic2);
             newUser.addAlbum(newAlbum);
             allUsers.addUser(newUser);
             allUsers.addUser(admin);

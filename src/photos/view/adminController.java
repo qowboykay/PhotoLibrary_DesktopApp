@@ -38,9 +38,7 @@ public class adminController {
 
     @FXML
     public void initialize(){
-        ObservableList<User> users = FXCollections.observableArrayList(allUsers.getUserList().stream()
-        .filter(user -> !user.getUsername().equals("admin"))
-        .collect(Collectors.toList()));
+        ObservableList<User> users = FXCollections.observableArrayList(allUsers.getUserList());
         userListView.setItems(users);
         userListView.getItems();
         userListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

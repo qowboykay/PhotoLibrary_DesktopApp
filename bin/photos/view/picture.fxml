@@ -53,7 +53,10 @@
                         </Button>
                         <HBox prefHeight="49.0" prefWidth="162.0" spacing="3.0">
                            <children>
-                              <Button fx:id="renameButton" mnemonicParsing="false" onAction="#onRenameButtonClicked" text="Rename" />
+                              <Button fx:id="clearButton" mnemonicParsing="false" onAction="#onClearButtonClicked" text="Clear">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin></Button>
                               <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="Delete" />
                               <Button fx:id="addButton" mnemonicParsing="false" onAction="#onAddButtonClicked" text="Add">
                                  <HBox.margin>
@@ -64,12 +67,19 @@
                            <padding>
                               <Insets left="1.0" />
                            </padding>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <ImageView fx:id="imageView" fitHeight="254.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="imageView" fitHeight="254.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                           </ImageView>
                         <Label fx:id="captionLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="98.0" text="Label">
                            <VBox.margin>
                               <Insets left="100.0" />

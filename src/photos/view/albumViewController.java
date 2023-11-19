@@ -88,7 +88,6 @@ public class albumViewController {
         pictureDetailsStage = new Stage();
         pictureDetailsStage.setTitle("Picture Details");
         pictureController pictureController = new pictureController(picture, currentAlbum);
-        pictureController.setAlbumViewController(this);
         pictureDetailsStage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/picture.fxml"));
         loader.setController(pictureController);
@@ -96,6 +95,7 @@ public class albumViewController {
         try {
             Parent root = loader.load();
             pictureDetailsStage.setScene(new Scene(root));
+            pictureDetailsStage.setResizable(false);
             pictureDetailsStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

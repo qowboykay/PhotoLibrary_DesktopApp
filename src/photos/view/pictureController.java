@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Date;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,7 +40,7 @@ public class pictureController {
     private ListView<Tag> tagsListView;
 
     @FXML
-    private ComboBox<Tag> tagNameField;
+    private ComboBox<String> tagNameField;
     @FXML
     private TextField tagValueField;
 
@@ -75,11 +76,10 @@ public class pictureController {
 
     private Stage stage;
     private Scene scene;
-    private ObservableList<Tag> options;
+    private ObservableList<String> options;
     private Picture currentPic;
     private Album currentAlbum;
     private int currentIndex;
-    private albumViewController albumViewController;
 
     public pictureController(Picture currentPic, Album currentAlbum) {
         this.currentPic = currentPic;
@@ -87,14 +87,10 @@ public class pictureController {
         this.currentIndex = 0;
     }
 
-    public void setAlbumViewController(albumViewController albumViewController){
-        this.albumViewController = albumViewController;
-    }
-
     @FXML 
     public void initialize(){
         setupDefaultTagNames();
-        ObservableList<Tag> tags = FXCollections.observableArrayList(currentPic.getPictureTags());
+        ObservableList<Tag> tags = FXCollections.observableArrayList();
         tagsListView.setItems(tags);
         tagsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         displayPicture();
@@ -102,30 +98,61 @@ public class pictureController {
 
     @FXML
     private void onAddButtonClicked(){
-        String tagName = tagNameField.getValue().getTagName();
+        String tagName = tagNameField.getEditor().getText();
         String tagValue = tagValueField.getText();
         if (!tagName.isEmpty() || !tagValue.isEmpty()) {
-            if(tagsListView.getItems().equals(tagNameField.getValue()));
-            Tag newTag = new Tag(tagName);
-            currentPic.addTag(newTag);
-            tagsListView.getItems().add(newTag);
-            tagsListView.refresh();
+            if(options.contains(tagName)){
+
+                Optional<Tag> existingTag = tagsListView.getItems().stream()
+                .filter(tag -> tag.getTagName().equals(tagName))
+                .findFirst();
+
+                if (existingTag.isPresent()) {
+                    existingTag.get().addTagValue(tagValue);
+                    tagsListView.refresh();
+                }
+                else{
+                    Tag newTag = new Tag(tagName);
+                    newTag.addTagValue(tagValue);
+                    currentPic.addTag(newTag);
+                    tagsListView.getItems().add(newTag);
+                    tagsListView.refresh();
+                }
+            }
+            else{
+                showAlert(Alert.AlertType.ERROR, "Selected tag name is not in the set options, please select an available option or create a new tag");
+            }
         }
         else{
-             // Handle the case where no album is selected
-            Alert alert = new Alert(Alert.AlertType.WARNING, "One of the field is blank, please specify tag name and tag value", ButtonType.OK);
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "One of the field is blank, please specify tag name and tag value"); 
         }
     }
 
     @FXML
     private void onDeleteButtonClicked(){
-
+        Tag selectedTag = tagsListView.getSelectionModel().getSelectedItem();
+        if (selectedTag != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this tag?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+    
+            if (alert.getResult() == ButtonType.YES) {
+                currentPic.getPictureTags().remove(selectedTag);
+                tagsListView.getItems().remove(selectedTag);
+            }
+        }
+        else{
+            showAlert(Alert.AlertType.ERROR, "Please select a tag to delete.");
+        }
     }
 
     @FXML
-    private void onRenameButtonClicked(){
-
+    private void onClearButtonClicked(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will reset all you tag names to default, are you sure you want to do this?",ButtonType.YES, ButtonType.NO );
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES) {
+            options.clear();
+            setupDefaultTagNames();
+        }
     }
 
     @FXML
@@ -152,55 +179,65 @@ public class pictureController {
 
     @FXML
     private void onNextButtonClicked() {
+        System.out.println("Current Index: " + currentIndex);
         currentIndex = (currentIndex + 1) % currentAlbum.returnPictures().size();
         displayPicture();
     }
 
     @FXML
     private void onNewTagButtonClicked(){
-        String tagName = tagNameField.getValue().getTagName();
-        boolean tagExists = tagNameField.getItems().stream().anyMatch(tag -> tag.getTagName().equals(tagName));
-        if(!tagName.isEmpty() && tagName.isEmpty()){
-            if(tagExists){
-                Alert error = new Alert(AlertType.ERROR,"That tag already exists", ButtonType.OK);
-                error.showAndWait();
-            }
-            else{
+        String tagName = tagNameField.getEditor().getText();
+        String tagValue = tagValueField.getText();
+        boolean tagExists = options.stream().anyMatch(tag -> tag.equals(tagName));
+        if (!tagName.isEmpty() && tagValue.isEmpty()) {
+            if (!tagExists) {
                 Tag newTag = new Tag(tagName);
-                options.add(newTag);
-                tagNameField.setItems(options);
+                options.add(newTag.getTagName());
+                updateOptions(options);
+            } else {
+                showAlert(Alert.AlertType.ERROR, "That tag already exists");
             }
         }
         else{
-             Alert alert = new Alert(Alert.AlertType.WARNING, "When creating a new tag the tag value field must be left blank.", ButtonType.OK);
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "When creating a new tag the tag value field must be left blank.");
         }
     }
 
     private void displayPicture() {
         if (!currentAlbum.returnPictures().isEmpty()) {
+            currentPic = currentAlbum.returnPictures().get(currentIndex);
             File pictureFile = new File(currentPic.getPicturePath());
-            System.out.println("Picture Path: " + pictureFile.toURI().toString());
             Image image = new Image(pictureFile.toURI().toString());
             imageView.setImage(image);
             imageView.setPreserveRatio(false);
             captionLabel.setText(currentPic.getCaption());
             Date date = currentPic.getDate();
             dateLabel.setText("" + date);
+
+            ObservableList<Tag> tags = FXCollections.observableArrayList(currentPic.getPictureTags());
+            tagsListView.setItems(tags);
+            tagsListView.refresh();
         }
     }
 
     private void setupDefaultTagNames(){
-        if(tagNameField.getItems().isEmpty()){
-            Tag animal = new Tag("animal");
+            Tag bread = new Tag("animal");
             Tag spooky = new Tag("spooky");
             Tag cute = new Tag("cute");
             Tag place = new Tag("place");
             Tag person = new Tag("person");
-            ObservableList<Tag> options = FXCollections.observableArrayList(animal,
-            spooky,cute,place,person);
-            tagNameField.setItems(options);
-        }
-
+            ObservableList<String> options = FXCollections.observableArrayList(bread.getTagName(),
+            spooky.getTagName(),cute.getTagName(),place.getTagName(),person.getTagName());
+            updateOptions(options);
     }
+
+    private void updateOptions(ObservableList<String> newOptions){
+        options = newOptions;
+        tagNameField.setItems(options);
+    }
+
+    private void showAlert(Alert.AlertType type, String content) {
+    Alert alert = new Alert(type, content, ButtonType.OK);
+    alert.showAndWait();
+}
 }

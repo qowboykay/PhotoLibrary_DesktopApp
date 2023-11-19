@@ -26,12 +26,12 @@ public class Tag implements Serializable{
     }
 
     public void removeTagValue(String tagValue){
-        tagValues.removeIf(element -> equals(tagValue));
+        tagValues.removeIf(element -> element.equals(tagValue));
         
     }
 
     @Override
-    public String toString(){
-        return tagName +": " + tagValues;
+    public String toString() {
+        return tagName + ": " + String.join(", ", tagValues);
     }
 }
