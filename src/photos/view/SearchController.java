@@ -75,11 +75,7 @@ public class SearchController {
         Album newAlbum = new Album(albumName);
         searchResultsListView.getItems().forEach(newAlbum::addPicture);
         currentUser.addAlbum(newAlbum);
-        // See method beloW!!!
-        saveUserData();
     }
 
-    private void saveUserData() {
-        // TODO:logic for saving user data
     }
-}
+
