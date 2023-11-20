@@ -25,9 +25,6 @@ public class SearchController {
     private User currentUser;
 
 
-    public void setCurrentUser(User currentUser){
-        this.currentUser = currentUser;
-    }
     // Method called when the search button is pressed
     @FXML
     protected void onSearchButtonClicked() {
@@ -78,6 +75,8 @@ public class SearchController {
         Album newAlbum = new Album(albumName);
         searchResultsListView.getItems().forEach(newAlbum::addPicture);
         currentUser.addAlbum(newAlbum);
+    }
+
     }
 
     }
