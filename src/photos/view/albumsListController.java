@@ -109,6 +109,7 @@ public class albumsListController {
             stage = (Stage) openAlbumButton.getScene().getWindow();
             scene = new Scene(loader.load());
             stage.setScene(scene);
+            album.setStage(stage);
             stage.setTitle("Welcome to" + " " +selectedAlbum.getAlbumName() + " " + "album!");
             stage.centerOnScreen();
             stage.show();

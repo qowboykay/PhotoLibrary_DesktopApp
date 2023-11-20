@@ -59,6 +59,7 @@ public class copyController {
             Alert alert = new Alert(AlertType.ERROR, "This album already contains this picture",ButtonType.OK);
             alert.showAndWait();
         }
+        stage.close();
     }
     
     @FXML

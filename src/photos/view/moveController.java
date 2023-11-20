@@ -22,6 +22,7 @@ public class moveController {
     private Album currentAlbum;
     private Album selectedAlbum;
     private Picture currentPic;
+    private boolean canceled = false;
 
     public moveController(){
 
@@ -60,6 +61,7 @@ public class moveController {
        }
         else{
             Alert alert = new Alert(AlertType.ERROR, "This album already contains this picture",ButtonType.OK);
+            canceled = true;
             alert.showAndWait();
         }
         
@@ -68,11 +70,16 @@ public class moveController {
     
     @FXML
     private void onCancelButtonClicked() {
+        canceled = true;
         stage.close();
     }
     
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public boolean isMoveCanceled(){
+        return canceled;
     }
 }
     

@@ -71,18 +71,21 @@ public class pictureController {
     @FXML 
     private Label dateLabel;
 
-    private Stage stage;
+    private Stage currentStage;
+    private Stage parentStage;
     private Scene scene;
     private ObservableList<String> options;
     private Picture currentPic;
     private Album currentAlbum;
     private int currentIndex;
     private User currentUser;
+    private albumViewController parentController;
 
-    public pictureController(Picture currentPic, Album currentAlbum) {
+    public pictureController(Picture currentPic, Album currentAlbum,albumViewController parentController) {
         this.currentPic = currentPic;
         this.currentAlbum = currentAlbum;
         this.currentIndex = 0;
+        this.parentController = parentController;
     }
 
     public void setCurrentUser(User currentUser){
@@ -173,10 +176,8 @@ public class pictureController {
 
         copyStage.showAndWait();
     }
-
     @FXML
-    private void onMoveButtonClicked() throws IOException{
-        Stage currentStage = (Stage) imageView.getScene().getWindow();
+    private void onMoveButtonClicked() throws IOException {
         ObservableList<Album> userAlbums = FXCollections.observableArrayList(currentUser.getListOfUserAlbums());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/move.fxml"));
         Stage moveStage = new Stage();
@@ -190,28 +191,34 @@ public class pictureController {
         moveController.setCurrentPic(currentPic);
         moveStage.setResizable(false);
         moveStage.showAndWait();
-        
-        if (currentAlbum.returnPictures().isEmpty()) {
-            // If it's the last picture, close the current stage
-            showAlert(Alert.AlertType.ERROR, "This album contains no pictures");
-            currentStage.close();
-        } else {
-            // If it's not the last picture, load a new picture view
-            FXMLLoader newLoader = new FXMLLoader(getClass().getResource("/photos/view/picture.fxml"));
-            pictureController newController = new pictureController(currentPic, currentAlbum);
-            newLoader.setController(newController);
-            newController.setCurrentUser(currentUser);
     
-            Stage newStage = (Stage) imageView.getScene().getWindow();
-            newStage.setScene(new Scene(newLoader.load()));
-            newStage.show();
-        }
+        if (!moveController.isMoveCanceled()) {
+            parentController.isMoveCanceled(moveController.isMoveCanceled());
+            if (currentAlbum.returnPictures().isEmpty()) {
+                // If it's the last picture, close the current stage
+                showAlert(Alert.AlertType.ERROR, "This album contains no pictures");
+                updateParentView();
+                currentStage.close();
+            } else {
+                // If it's not the last picture, load a new picture view
+                FXMLLoader newLoader = new FXMLLoader(getClass().getResource("/photos/view/picture.fxml"));
+                pictureController newController = new pictureController(currentPic, currentAlbum, parentController);
+                newLoader.setController(newController);
+                newController.setCurrentUser(currentUser);
+                currentStage.close();
+                Stage newStage = new Stage();
+                newStage.setScene(new Scene(newLoader.load()));
+                newController.setStage(newStage);
+                newStage.setTitle("Picture Details");
+                updateParentView(); // Update the parent view
+                newStage.show();
+            }
+        } 
     }
 
     @FXML
     private void onReturnButtonClicked() throws IOException{
-        Stage stage = (Stage) returnToAlbumButton.getScene().getWindow();
-        stage.close();
+        currentStage.close();
     }
 
     @FXML
@@ -282,8 +289,15 @@ public class pictureController {
     alert.showAndWait();
     }
 
-    public void updatePictureView() {
-        displayPicture();
+    public void setStage(Stage currentStage){
+        this.currentStage = currentStage;
     }
 
+    public void setParentStage(Stage parentStage){
+        this.parentStage = parentStage;
+    }
+
+    private void updateParentView() {
+        parentController.updateAlbumView();
+    }
 }

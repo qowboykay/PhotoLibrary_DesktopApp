@@ -28,13 +28,14 @@ public class albumViewController {
     @FXML
     private GridPane pictureGrid;
 
-    private Stage stage;
+    private Stage currentStage;
     private Stage pictureDetailsStage;
     private Scene scene;
 
     private Album currentAlbum;
     private albumsListController albumsListController;
     private User currentUser;
+    private boolean canceled;
 
     public albumViewController(Album currentAlbum) {
         this.currentAlbum = currentAlbum;
@@ -48,6 +49,9 @@ public class albumViewController {
         this.albumsListController = albumsListController;
     }
 
+    public void setStage(Stage currentStage){
+        this.currentStage = currentStage;
+    }
 
     @FXML
     void initialize() {
@@ -93,20 +97,19 @@ public class albumViewController {
     private void showPictureDetails(Picture picture, Album currentAlbum) {
         pictureDetailsStage = new Stage();
         pictureDetailsStage.setTitle("Picture Details");
-        pictureController pictureController = new pictureController(picture, currentAlbum);
+        pictureController pictureController = new pictureController(picture, currentAlbum, this);
         pictureDetailsStage.initModality(Modality.APPLICATION_MODAL);
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/picture.fxml"));
         loader.setController(pictureController);
         pictureController.setCurrentUser(currentUser);
     
-        // Set OnCloseRequest for the pictureDetailsStage
-        pictureDetailsStage.setOnCloseRequest(event -> reloadAlbumView(currentAlbum));
-    
         try {
             Parent root = loader.load();
             pictureDetailsStage.setScene(new Scene(root));
             pictureDetailsStage.setResizable(false);
+            pictureController.setStage(pictureDetailsStage);
+            pictureController.setParentStage(currentStage);
             pictureDetailsStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -118,18 +121,19 @@ public class albumViewController {
     protected void onBackButtonClicked() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/albumsList.fxml"));
         loader.setController(albumsListController);
-        stage = (Stage) backButton.getScene().getWindow();
+        currentStage = (Stage) backButton.getScene().getWindow();
         scene = new Scene(loader.load());
-        stage.setTitle("Welcome to your Albums" + " " + currentUser.getUsername() + "!");
-        stage.setScene(scene);
-        stage.centerOnScreen();
-        stage.show();
+        currentStage.setTitle("Welcome to your Albums" + " " + currentUser.getUsername() + "!");
+        currentStage.setScene(scene);
+        currentStage.centerOnScreen();
+        currentStage.show();
     }
 
-    private void reloadAlbumView(Album currentAlbum) {
+    public void updateAlbumView() {
         FXMLLoader newLoader = new FXMLLoader(getClass().getResource("/photos/view/albumView.fxml"));
         albumViewController newController = new albumViewController(currentAlbum);
         newLoader.setController(newController);
+        newController.setAlbumListController(albumsListController);
         newController.setCurrentUser(currentUser);
         
         Stage newStage = new Stage();  // Create a new stage for the album view
@@ -139,13 +143,15 @@ public class albumViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        // Close the current stage
-        Stage currentStage = (Stage) pictureGrid.getScene().getWindow();
-        currentStage.close();
-        
-        // Show the new stage
-        newStage.setTitle("Album View");
+         if(!canceled){
+            currentStage.close();
+        }
+            //show the new stage
+        newStage.setTitle("Welcome to" + " " + currentAlbum.getAlbumName() + " " + "album!");
         newStage.show();
+    }
+
+    public void isMoveCanceled(boolean move){
+        canceled = move;
     }
 }
