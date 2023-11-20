@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="200.0" prefWidth="300.0" spacing="5.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.view.moveController">
-    <Label text="Select a Destination Album" />
-    <ComboBox fx:id="destinationAlbumComboBox" prefHeight="26.0" prefWidth="208.0" promptText="Select a New Album Location" />
+<VBox prefHeight="200.0" prefWidth="300.0" spacing="5.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.view.deleteController">
+    <Label text="Select a Picture To Be Deleted" />
+    <ComboBox fx:id="destinationPictureComboBox" prefWidth="200.0" promptText="Select a Picture" />
     <HBox spacing="10.0">
-        <Button onAction="#onMoveButtonClicked" text="Move" />
+        <Button onAction="#onDeleteButtonClicked" text="Delete" />
         <Button onAction="#onCancelButtonClicked" text="Cancel" />
     </HBox>
    <padding>

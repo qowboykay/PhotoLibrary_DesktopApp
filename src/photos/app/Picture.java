@@ -10,13 +10,19 @@ public class Picture implements Serializable {
     private String caption;
     private ArrayList<Tag> tags;
     private Calendar cal;
+    private Date creationDate;  // New field for the creation date
 
     public Picture(String picturePath, String caption) {
         this.picturePath = picturePath;
         this.caption = caption;
         this.tags = new ArrayList<>();
-        // Initialize the calendar here if necessary, e.g., based on file's last modified date
-        // this.cal = ...;
+        File file = new File(picturePath);
+        this.creationDate = new Date();  // Set the creation date when the object is created
+        long lastModifiedTimestamp = file.lastModified();
+        this.creationDate = new Date(lastModifiedTimestamp);
+        this.cal = Calendar.getInstance();
+        this.cal.set(Calendar.MILLISECOND, 0);
+        this.cal.setTime(creationDate);
     }
 
     public String getPicturePath() {
@@ -32,12 +38,7 @@ public class Picture implements Serializable {
     }
 
     public Date getDate() {
-        // Assuming you want to set the Calendar instance when getting the date
-        // This seems a bit unusual as typically the date would be set once
-        // and then retrieved, not reset every time it's retrieved
-        cal = Calendar.getInstance();
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTime();
+        return creationDate;
     }
 
     public void addTag(Tag tag) {
@@ -62,9 +63,7 @@ public class Picture implements Serializable {
     
     @Override
     public String toString() {
-        return "Photo{" +
-                "caption='" + caption + '\'' +
-                '}';
+        return caption;
     }
 
 }

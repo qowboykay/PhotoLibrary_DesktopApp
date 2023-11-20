@@ -175,7 +175,7 @@ public class pictureController {
         copyController.setCurrentPic(currentPic);
 
         copyStage.showAndWait();
-    }
+    }  
     @FXML
     private void onMoveButtonClicked() throws IOException {
         ObservableList<Album> userAlbums = FXCollections.observableArrayList(currentUser.getListOfUserAlbums());

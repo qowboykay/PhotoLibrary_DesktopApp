@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.view.copyController">
-    <Label text="Select Destination Album" />
-    <ComboBox fx:id="destinationAlbumComboBox" prefWidth="200.0" />
+<VBox prefHeight="200.0" prefWidth="300.0" spacing="5.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.view.copyController">
+    <Label text="Select a Destination Album" />
+    <ComboBox fx:id="destinationAlbumComboBox" prefHeight="26.0" prefWidth="218.0" promptText="Select a  New Album Location" />
     <HBox spacing="10.0">
         <Button onAction="#onCopyButtonClicked" text="Copy" />
         <Button onAction="#onCancelButtonClicked" text="Cancel" />
     </HBox>
+   <padding>
+      <Insets left="5.0" top="5.0" />
+   </padding>
 </VBox>
