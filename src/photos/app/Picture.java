@@ -21,7 +21,7 @@ public class Picture implements Serializable {
     private transient Image image;  // JavaFX Image, marked as transient for serialization
 
 
-    public Picture(String picturePath, String caption) {
+    public Picture(String picturePath, String caption) throws IOException {
         this.picturePath = picturePath;
         this.caption = caption;
         this.tags = new ArrayList<>();
@@ -85,31 +85,27 @@ public class Picture implements Serializable {
     public String toString() {
         return caption;
     }
-    public void loadPicture(String filePath) {
+    public void loadPicture(String filePath) throws IOException {
         try {
             // Check if the file exists
             if (!Files.exists(Paths.get(filePath))) {
                 throw new IOException("File not found: " + filePath);
             }
 
-
-            // Loading the image with JavaFX
-            try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
-                BufferedImage bufferedImage = ImageIO.read(fileInputStream);
-                this.image = SwingFXUtils.toFXImage(bufferedImage, null);
-            } catch (FileNotFoundException e) {
-                System.err.println("File not found when attempting to load: " + e.getMessage());
-                // Additional handling like logging or updating GUI
-            } catch (IOException e) {
-                System.err.println("IO error when loading picture: " + e.getMessage());
+            // Attempt to load the image from the file path
+            BufferedImage bufferedImage = ImageIO.read(new File(filePath));
+            if (bufferedImage == null) {
+                // The file is not an image or is not recognized as one
+                throw new IOException("The file is not an image or cannot be recognized as an image.");
             }
-
-
+            this.image = SwingFXUtils.toFXImage(bufferedImage, null);
         } catch (IOException e) {
+            // Handle the case where the image cannot be loaded
             System.err.println("Error loading picture: " + e.getMessage());
-            // Additional handling like logging or updating GUI
+            // Here you can add more robust error handling like showing an error dialog
         }
     }
+
 
 
     // Getter for the JavaFX image

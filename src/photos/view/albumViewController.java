@@ -200,27 +200,40 @@ public class albumViewController {
         searchStage.showAndWait();
 
         
-    } 
+    }
 
     @FXML
-    private void onAddButtonClicked(){
+    private void onAddButtonClicked() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose a Picture");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif")
+        );
         File selectedFile = fileChooser.showOpenDialog(addButton.getScene().getWindow());
 
         if (selectedFile != null) {
-            if (isPictureAlreadyInAlbum(selectedFile.getAbsolutePath())){
-                Alert alert = new Alert(AlertType.ERROR,"This picture is already in the album", ButtonType.OK);
+            if (isPictureAlreadyInAlbum(selectedFile.getAbsolutePath())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "This picture is already in the album", ButtonType.OK);
                 alert.showAndWait();
+                return; // Exit the method if the picture is already in the album
             }
-            else{
+
             String caption = "Default Caption"; // Set a default caption or prompt the user for one
-            Picture newPicture = new Picture(selectedFile.getAbsolutePath(), caption);
-            currentAlbum.addPicture(newPicture);
-            updateAlbumView();
+            try {
+                Picture newPicture = new Picture(selectedFile.getAbsolutePath(), caption);
+                currentAlbum.addPicture(newPicture);
+                updateAlbumView();
+            } catch (IOException e) {
+                // Show an error alert if the image couldn't be loaded
+                Alert alert = new Alert(Alert.AlertType.ERROR, "The selected file is not an image or cannot be opened.", ButtonType.OK);
+                alert.showAndWait();
             }
         }
     }
+
+
+// Include any other helper methods that are called within onAddButtonClicked, such as isPictureAlreadyInAlbum
+
 
     @FXML 
     private void onDeleteButtonClicked() throws IOException{
