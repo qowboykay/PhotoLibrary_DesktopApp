@@ -1,8 +1,11 @@
 package photos.app;
 
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,5 +68,29 @@ public class User implements Serializable{
                 .flatMap(album -> album.searchPicturesByTag(tagName, tagValue).stream())
                 .collect(Collectors.toList());
     }
-    
+    public List<Picture> searchPicturesByTagsConjunctive(String tag1, String value1, String tag2, String value2) {
+        List<Picture> result = new ArrayList<>();
+        Map<String, String> tags = new HashMap<>();
+        tags.put(tag1, value1);
+        tags.put(tag2, value2);
+
+        for (Album album : albumList) {
+            result.addAll(album.searchPicturesByTagsConjunctive(tags));
+        }
+        return result;
+    }
+
+    public List<Picture> searchPicturesByTagsDisjunctive(String tag1, String value1, String tag2, String value2) {
+        List<Picture> result = new ArrayList<>();
+        Map<String, String> tags = new HashMap<>();
+        tags.put(tag1, value1);
+        tags.put(tag2, value2);
+
+        for (Album album : albumList) {
+            result.addAll(album.searchPicturesByTagsDisjunctive(tags));
+        }
+        return result;
+    }
+
+
 }

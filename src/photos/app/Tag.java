@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class Tag implements Serializable{
-    
+
     static final long serialVersionUID = 1L;
     private String tagName;
     private ArrayList<String> tagValues;
