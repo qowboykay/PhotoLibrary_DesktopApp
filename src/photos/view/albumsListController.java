@@ -49,10 +49,16 @@ public class albumsListController {
     protected void onCreateAlbumButtonClicked() {
         String albumName = albumNameField.getText();
         if (!albumName.isEmpty()) {
+             if(!albumListView.getItems().stream().anyMatch(album -> album.getAlbumName().equals(albumName))){
             Album newAlbum = new Album(albumName);
             currentUser.addAlbum(newAlbum);
             albumListView.getItems().add(newAlbum);
             albumListView.refresh();
+             }
+             else{
+                Alert alert = new Alert(Alert.AlertType.ERROR, "An album with that name already exists", ButtonType.OK);
+                alert.showAndWait();
+             }
         }
         else{
              // Handle the case where no album is selected
@@ -85,13 +91,19 @@ public class albumsListController {
         Album selectedAlbum = albumListView.getSelectionModel().getSelectedItem();
         String newAlbumName = albumNameField.getText();
         if (selectedAlbum != null && !newAlbumName.isEmpty()) {
+            if(!albumListView.getItems().stream().anyMatch(album -> album.getAlbumName().equals(newAlbumName))){
             selectedAlbum.setAlbumName(newAlbumName);
             // Refresh the ListView to show the updated name
             albumListView.refresh();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR, "An album with that name already exists", ButtonType.OK);
+                alert.showAndWait();
+            }
         }
         else{
              // Handle the case where no album is selected
-            Alert alert = new Alert(Alert.AlertType.WARNING, "An album has not been selected or the album name field is blank.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "An album has not been selected or the album name field is blank.", ButtonType.OK);
             alert.showAndWait();
         }
     }

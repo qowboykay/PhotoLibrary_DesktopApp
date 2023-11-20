@@ -90,7 +90,7 @@ public class albumViewController {
             pictureGrid.add(pictureBox, columnIndex, rowIndex);
 
             columnIndex++;
-            if (columnIndex == 3) { // Adjust the number of columns as needed
+            if (columnIndex == 5) { // Adjust the number of columns as needed
                 columnIndex = 0;
                 rowIndex++;
             }
@@ -155,19 +155,21 @@ public class albumViewController {
         newController.setCurrentUser(currentUser);
         
         Stage newStage = new Stage();  // Create a new stage for the album view
+        
         if(!canceled){
-            if (currentStage != null) {
             currentStage.close();
         }
-        }
+
         try {
             newStage.setScene(new Scene(newLoader.load()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-         
-        currentStage = newStage; //show the new stage
-        newStage.setTitle("Welcome to" + " " + currentAlbum.getAlbumName() + " " + "album!");
+        currentStage = newStage;
+        newController.setStage(currentStage);
+
+        //show the new stage
+        newStage.setTitle("Welcome to" + " " + currentAlbum.getAlbumName() + " " + "");
         newStage.show();
     }
 
@@ -188,9 +190,17 @@ public class albumViewController {
     }
 
     @FXML
-    private void onSearchButtonClicked(){
+    private void onSearchButtonClicked() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/search.fxml"));
+        Stage searchStage = new Stage();
+        searchStage.setScene(new Scene(loader.load()));
+        searchStage.setTitle("Search");
+        SearchController searchController = loader.getController();
+        searchController.setCurrentUser(currentUser);
+        searchStage.showAndWait();
 
-    }
+        
+    } 
 
     @FXML
     private void onAddButtonClicked(){
@@ -214,6 +224,7 @@ public class albumViewController {
 
     @FXML 
     private void onDeleteButtonClicked() throws IOException{
+
         ObservableList<Picture> albumPics = FXCollections.observableArrayList(currentAlbum.returnPictures());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/delete.fxml"));
         Stage deleteStage = new Stage();
