@@ -24,6 +24,9 @@ public class SearchController {
 
     private User currentUser;
 
+    public void setCurrentUser(User currentUser){
+        this.currentUser = currentUser;
+    }
 
     // Method called when the search button is pressed
     @FXML
