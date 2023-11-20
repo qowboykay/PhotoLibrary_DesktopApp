@@ -101,8 +101,7 @@ public class Picture implements Serializable {
             this.image = SwingFXUtils.toFXImage(bufferedImage, null);
         } catch (IOException e) {
             // Handle the case where the image cannot be loaded
-            System.err.println("Error loading picture: " + e.getMessage());
-            // Here you can add more robust error handling like showing an error dialog
+            throw e;
         }
     }
 

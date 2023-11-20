@@ -225,11 +225,12 @@ public class albumViewController {
                 updateAlbumView();
             } catch (IOException e) {
                 // Show an error alert if the image couldn't be loaded
-                Alert alert = new Alert(Alert.AlertType.ERROR, "The selected file is not an image or cannot be opened.", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "The selected file is not an image or cannot be opened: " + e.getMessage(), ButtonType.OK);
                 alert.showAndWait();
             }
         }
     }
+
 
 
 // Include any other helper methods that are called within onAddButtonClicked, such as isPictureAlreadyInAlbum
