@@ -5,7 +5,7 @@ import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import photos.app.*;
-
+import javafx.scene.control.DatePicker;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -27,6 +27,14 @@ public class SearchController {
     public void setCurrentUser(User currentUser){
         this.currentUser = currentUser;
     }
+    public LocalDate getStartDate() {
+        return startDatePicker.getValue();
+    }
+
+    public LocalDate getEndDate() {
+        return endDatePicker.getValue();
+    }
+
 
     // Method called when the search button is pressed
     @FXML
@@ -38,6 +46,11 @@ public class SearchController {
         String tag2Name = tag2NameField.getText();
         String tag2Value = tag2ValueField.getText();
 
+        if (startDate == null || endDate == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Both start date and end date are required for a date range search.");
+            alert.showAndWait();
+            return;
+        }
         List<Picture> results = new ArrayList<>();
 
         if (!tag1Name.isEmpty() && !tag1Value.isEmpty() && !tag2Name.isEmpty() && !tag2Value.isEmpty()) {

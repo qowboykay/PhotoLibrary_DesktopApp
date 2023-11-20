@@ -22,7 +22,7 @@ import photos.app.Album;
 import photos.app.AllUsers;
 import photos.app.Picture;
 import photos.app.User;
-
+import java.time.LocalDate;
 import java.io.File;
 import java.io.IOException;
 
@@ -190,17 +190,44 @@ public class albumViewController {
     }
 
     @FXML
-    private void onSearchButtonClicked() throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/search.fxml"));
-        Stage searchStage = new Stage();
-        searchStage.setScene(new Scene(loader.load()));
-        searchStage.setTitle("Search");
-        SearchController searchController = loader.getController();
-        searchController.setCurrentUser(currentUser);
-        searchStage.showAndWait();
+    private void onSearchButtonClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/search.fxml"));
+            Stage searchStage = new Stage();
+            searchStage.setScene(new Scene(loader.load()));
+            searchStage.setTitle("Search");
+            SearchController searchController = loader.getController();
+            searchController.setCurrentUser(currentUser);
 
-        
+            // Show the search stage and wait for it to close
+            searchStage.showAndWait();
+
+            LocalDate startDate = searchController.getStartDate();
+            LocalDate endDate = searchController.getEndDate();
+
+            // If both start date and end date are null, it likely means no search was attempted
+            if (startDate == null && endDate == null) {
+                return; // Exit the method early
+            }
+
+            // If either date is null, show an error alert
+            if (startDate == null || endDate == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter both start and end dates.", ButtonType.OK);
+                alert.showAndWait();
+                return; // Exit the method if the dates are not properly set
+            }
+
+            // Proceed with your search logic using startDate and endDate
+
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "There was an error loading the search window: " + e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "An unexpected error occurred: " + e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
     }
+
 
     @FXML
     private void onAddButtonClicked() {
@@ -230,10 +257,6 @@ public class albumViewController {
             }
         }
     }
-
-
-
-// Include any other helper methods that are called within onAddButtonClicked, such as isPictureAlreadyInAlbum
 
 
     @FXML 
