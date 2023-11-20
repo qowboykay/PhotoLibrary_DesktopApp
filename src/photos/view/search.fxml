@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.view.SearchController" spacing="10" padding="10">
+    <Label text="Search Photos" />
+
+    <HBox spacing="10">
+        <VBox spacing="5">
+            <Label text="Start Date"/>
+            <DatePicker fx:id="startDatePicker"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="End Date"/>
+            <DatePicker fx:id="endDatePicker"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="10">
+        <VBox spacing="5">
+            <Label text="Tag 1 Name"/>
+            <TextField fx:id="tag1NameField" promptText="Tag Name"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Tag 1 Value"/>
+            <TextField fx:id="tag1ValueField" promptText="Tag Value"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="10">
+        <VBox spacing="5">
+            <Label text="Tag 2 Name"/>
+            <TextField fx:id="tag2NameField" promptText="Tag Name"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Tag 2 Value"/>
+            <TextField fx:id="tag2ValueField" promptText="Tag Value"/>
+        </VBox>
+    </HBox>
+
+    <Button text="Search" onAction="#onSearchButtonClicked"/>
+
+    <ListView fx:id="searchResultsListView" />
+
+    <HBox spacing="10">
+        <TextField fx:id="albumNameField" promptText="New Album Name"/>
+        <Button text="Create Album from Results" onAction="#onCreateAlbumFromResults"/>
+    </HBox>
+</VBox>
