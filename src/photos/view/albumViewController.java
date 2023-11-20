@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import photos.app.Album;
 import photos.app.AllUsers;
 import photos.app.Picture;
+import photos.app.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,9 +34,14 @@ public class albumViewController {
 
     private Album currentAlbum;
     private albumsListController albumsListController;
+    private User currentUser;
 
     public albumViewController(Album currentAlbum) {
         this.currentAlbum = currentAlbum;
+    }
+
+    public void setCurrentUser(User currentUser){
+        this.currentUser = currentUser;
     }
 
     public void setAlbumListController(albumsListController albumsListController){
@@ -89,8 +95,13 @@ public class albumViewController {
         pictureDetailsStage.setTitle("Picture Details");
         pictureController pictureController = new pictureController(picture, currentAlbum);
         pictureDetailsStage.initModality(Modality.APPLICATION_MODAL);
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/picture.fxml"));
         loader.setController(pictureController);
+        pictureController.setCurrentUser(currentUser);
+    
+        // Set OnCloseRequest for the pictureDetailsStage
+        pictureDetailsStage.setOnCloseRequest(event -> reloadAlbumView(currentAlbum));
     
         try {
             Parent root = loader.load();
@@ -101,6 +112,7 @@ public class albumViewController {
             e.printStackTrace();
         }
     }
+    
 
     @FXML
     protected void onBackButtonClicked() throws IOException {
@@ -108,8 +120,32 @@ public class albumViewController {
         loader.setController(albumsListController);
         stage = (Stage) backButton.getScene().getWindow();
         scene = new Scene(loader.load());
+        stage.setTitle("Welcome to your Albums" + " " + currentUser.getUsername() + "!");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
+    }
+
+    private void reloadAlbumView(Album currentAlbum) {
+        FXMLLoader newLoader = new FXMLLoader(getClass().getResource("/photos/view/albumView.fxml"));
+        albumViewController newController = new albumViewController(currentAlbum);
+        newLoader.setController(newController);
+        newController.setCurrentUser(currentUser);
+        
+        Stage newStage = new Stage();  // Create a new stage for the album view
+        
+        try {
+            newStage.setScene(new Scene(newLoader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Close the current stage
+        Stage currentStage = (Stage) pictureGrid.getScene().getWindow();
+        currentStage.close();
+        
+        // Show the new stage
+        newStage.setTitle("Album View");
+        newStage.show();
     }
 }

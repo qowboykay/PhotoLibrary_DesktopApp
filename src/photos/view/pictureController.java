@@ -2,22 +2,18 @@ package photos.view;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.Date;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -30,6 +26,7 @@ import javafx.stage.Stage;
 import photos.app.Album;
 import photos.app.Picture;
 import photos.app.Tag;
+import photos.app.User;
 
 public class pictureController {
 
@@ -80,11 +77,16 @@ public class pictureController {
     private Picture currentPic;
     private Album currentAlbum;
     private int currentIndex;
+    private User currentUser;
 
     public pictureController(Picture currentPic, Album currentAlbum) {
         this.currentPic = currentPic;
         this.currentAlbum = currentAlbum;
         this.currentIndex = 0;
+    }
+
+    public void setCurrentUser(User currentUser){
+        this.currentUser = currentUser;
     }
 
     @FXML 
@@ -156,13 +158,54 @@ public class pictureController {
     }
 
     @FXML
-    private void onCopyButtonClicked(){
+    private void onCopyButtonClicked() throws IOException{
+        ObservableList<Album> userAlbums = FXCollections.observableArrayList(currentUser.getListOfUserAlbums());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/copy.fxml"));
+        Stage copyStage = new Stage();
+        copyStage.setScene(new Scene(loader.load()));
+    
+        // Get the controller from the loader
+        copyController copyController = loader.getController();
+        copyController.setStage(copyStage);
+        copyController.setCurrentAlbum(currentAlbum); // Set the current album here
+        copyController.setDestinationAlbums(userAlbums); // Pass the ObservableList<Album> here
+        copyController.setCurrentPic(currentPic);
 
+        copyStage.showAndWait();
     }
 
     @FXML
-    private void onMoveButtonClicked(){
+    private void onMoveButtonClicked() throws IOException{
+        Stage currentStage = (Stage) imageView.getScene().getWindow();
+        ObservableList<Album> userAlbums = FXCollections.observableArrayList(currentUser.getListOfUserAlbums());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/move.fxml"));
+        Stage moveStage = new Stage();
+        moveStage.setScene(new Scene(loader.load()));
+    
+        // Get the controller from the loader
+        moveController moveController = loader.getController();
+        moveController.setStage(moveStage);
+        moveController.setCurrentAlbum(currentAlbum); // Set the current album here
+        moveController.setDestinationAlbums(userAlbums); // Pass the ObservableList<Album> here
+        moveController.setCurrentPic(currentPic);
+        moveStage.setResizable(false);
+        moveStage.showAndWait();
         
+        if (currentAlbum.returnPictures().isEmpty()) {
+            // If it's the last picture, close the current stage
+            showAlert(Alert.AlertType.ERROR, "This album contains no pictures");
+            currentStage.close();
+        } else {
+            // If it's not the last picture, load a new picture view
+            FXMLLoader newLoader = new FXMLLoader(getClass().getResource("/photos/view/picture.fxml"));
+            pictureController newController = new pictureController(currentPic, currentAlbum);
+            newLoader.setController(newController);
+            newController.setCurrentUser(currentUser);
+    
+            Stage newStage = (Stage) imageView.getScene().getWindow();
+            newStage.setScene(new Scene(newLoader.load()));
+            newStage.show();
+        }
     }
 
     @FXML
@@ -198,9 +241,6 @@ public class pictureController {
                 showAlert(Alert.AlertType.ERROR, "That tag already exists");
             }
         }
-        else{
-            showAlert(Alert.AlertType.ERROR, "When creating a new tag the tag value field must be left blank.");
-        }
     }
 
     private void displayPicture() {
@@ -218,6 +258,7 @@ public class pictureController {
             tagsListView.setItems(tags);
             tagsListView.refresh();
         }
+
     }
 
     private void setupDefaultTagNames(){
@@ -239,5 +280,10 @@ public class pictureController {
     private void showAlert(Alert.AlertType type, String content) {
     Alert alert = new Alert(type, content, ButtonType.OK);
     alert.showAndWait();
-}
+    }
+
+    public void updatePictureView() {
+        displayPicture();
+    }
+
 }

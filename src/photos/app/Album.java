@@ -38,6 +38,10 @@ public class Album implements Serializable {
     public void addPicture(Picture pic){
         this.pics.add(pic);
     }
+
+    public void deletePicture(Picture pic){
+        pics.remove(pic);
+    }
 /**
  * This method returns the list of pictures in an album as an ArrayList.
  * @return

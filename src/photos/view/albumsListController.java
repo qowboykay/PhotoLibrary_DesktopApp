@@ -105,6 +105,7 @@ public class albumsListController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/albumView.fxml"));
             loader.setController(album);
             album.setAlbumListController(this);
+            album.setCurrentUser(currentUser);
             stage = (Stage) openAlbumButton.getScene().getWindow();
             scene = new Scene(loader.load());
             stage.setScene(scene);
@@ -132,6 +133,7 @@ public class albumsListController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/login.fxml"));
         stage = (Stage) logoutButton.getScene().getWindow();
         scene = new Scene(loader.load());
+        stage.setTitle("Login");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();

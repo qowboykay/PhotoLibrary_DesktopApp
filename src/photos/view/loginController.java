@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import photos.app.*;
-import java.io.*;
+
 
 public class loginController {
 
@@ -53,7 +53,13 @@ public class loginController {
             incorrectAlert.showAndWait();
         }
     }
-    
+    /**
+     * This method loads an album list view that lists all the album that the user that logged in owns, it takes an instance of the current user and allusers list.
+     * @param event
+     * @param user
+     * @param allUsers
+     * @throws Exception
+     */
     public void loginForUsers(ActionEvent event, User user, AllUsers allUsers) throws Exception{
         albumsListController album = new albumsListController(user,allUsers);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/albumsList.fxml"));
@@ -61,13 +67,19 @@ public class loginController {
         root = loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        stage.setTitle("Welcome to Your Albums" + " " + username.getText() + "!");
+        stage.setTitle("Welcome to your Albums" + " " + username.getText() + "!");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
 
     }
 
+    /**
+     * This method loads the admin controller for the login of an admin, it takes a userList.
+     * @param event
+     * @param userList
+     * @throws Exception
+     */
     public void loginForAdmin(ActionEvent event,AllUsers userList) throws Exception{
         adminController admin = new adminController(userList);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/admin.fxml"));
@@ -82,10 +94,14 @@ public class loginController {
 
     }
 
-
+/**
+ * This method initializes when the login controller is opened and sets the default user and admin if not already set.
+ * @throws IOException
+ * @throws ClassNotFoundException
+ */
     public void initialize() throws IOException, ClassNotFoundException {
         allUsers = AllUsers.getAllUsers();
-        if(allUsers.isEmpty()){
+        if(!allUsers.getUserList().stream().anyMatch(user -> user.getUsername().equals("stock"))){
             User newUser = new User("stock","stock");
             User admin = new User("admin","admin");
             Album newAlbum = new Album("stock");
