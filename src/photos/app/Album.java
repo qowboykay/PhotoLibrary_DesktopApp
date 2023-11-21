@@ -50,33 +50,62 @@ public class Album implements Serializable {
         return pics;
     }
 
-    // Method to search photos by date range
+    /**
+     * Searches for photos within a specified date range.
+     *
+     * @param startDate The start of the date range.
+     * @param endDate   The end of the date range.
+     * @return A list of {@link Picture} objects that fall within the specified date range.
+     */
     public List<Picture> searchPicturesByDate(Calendar startDate, Calendar endDate) {
         return pics.stream()
                 .filter(picture -> picture.isWithinDateRange(startDate, endDate))
                 .collect(Collectors.toList());
     }
 
-    // Method to search photos by a single tag-value pair
+    /**
+     * Searches for photos that match a specific tag name and value.
+     *
+     * @param tagName  The name of the tag to search for.
+     * @param tagValue The value of the tag to match.
+     * @return A list of {@link Picture} objects that have the specified tag name and value.
+     */
     public List<Picture> searchPicturesByTag(String tagName, String tagValue) {
         return pics.stream()
                 .filter(picture -> picture.hasTag(tagName, tagValue))
                 .collect(Collectors.toList());
     }
-
+    /**
+     * Searches for photos that match all specified tags (conjunctive search).
+     *
+     * @param tags A map of tag names and values to search for. Photos must match all provided tags.
+     * @return A list of {@link Picture} objects that match all the specified tags.
+     */
     public List<Picture> searchPicturesByTagsConjunctive(Map<String, String> tags) {
         return pics.stream()
                 .filter(picture -> tags.entrySet().stream()
                         .allMatch(entry -> picture.hasTag(entry.getKey(), entry.getValue())))
                 .collect(Collectors.toList());
     }
-
+    /**
+     * Searches for photos that match any of the specified tags (disjunctive search).
+     *
+     * @param tags A map of tag names and values. Photos must match at least one of the provided tags.
+     * @return A list of {@link Picture} objects that match any of the specified tags.
+     */
     public List<Picture> searchPicturesByTagsDisjunctive(Map<String, String> tags) {
         return pics.stream()
                 .filter(picture -> tags.entrySet().stream()
                         .anyMatch(entry -> picture.hasTag(entry.getKey(), entry.getValue())))
                 .collect(Collectors.toList());
     }
+    /**
+     * Creates a new album from a list of search results.
+     *
+     * @param newAlbumName  The name for the new album.
+     * @param searchResults The list of {@link Picture} objects to be added to the new album.
+     * @return The newly created {@link Album} containing the search results.
+     */
     public Album createAlbumFromSearchResults(String newAlbumName, List<Picture> searchResults) {
         Album newAlbum = new Album(newAlbumName);
         for (Picture pic : searchResults) {
