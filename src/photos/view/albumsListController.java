@@ -32,19 +32,27 @@ public class albumsListController {
     private Stage stage;
     private User currentUser;
     private AllUsers allUsers;
-
+    /**
+     * This method is the constructor for the albumslistcontroller
+     * @param currentUser
+     * @param allUsers
+     */
     public albumsListController(User currentUser, AllUsers allUsers) {
         this.currentUser = currentUser;
         this.allUsers = allUsers;
     }
-
+    /**
+     * This method runs when the albums list controller is opened and sets up the listview
+     */
     @FXML
     public void initialize() {
         ObservableList<Album> albums = FXCollections.observableArrayList(currentUser.getListOfUserAlbums());
         albumListView.setItems(albums);
         albumListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
-
+    /**
+     * This method creates an album using the specified name in the album name field when the create button is clicked
+     */
     @FXML
     protected void onCreateAlbumButtonClicked() {
         String albumName = albumNameField.getText();
@@ -66,7 +74,9 @@ public class albumsListController {
             alert.showAndWait();
         }
     }
-
+    /**
+     * This method deletes an album that is selected when the delete button is pressed
+     */
     @FXML
     protected void onDeleteAlbumButtonClicked() {
         Album selectedAlbum = albumListView.getSelectionModel().getSelectedItem();
@@ -85,7 +95,9 @@ public class albumsListController {
             alert.showAndWait();
         }
     }
-
+    /**
+     * This method renames an album that is selected to the specified name in the album name field when the rename button is clicked
+     */
     @FXML
     protected void onRenameAlbumButtonClicked() {
         Album selectedAlbum = albumListView.getSelectionModel().getSelectedItem();
@@ -107,7 +119,10 @@ public class albumsListController {
             alert.showAndWait();
         }
     }
-
+    /**
+     * This method opens the specified album clicked creating a new album view controller
+     * @throws IOException
+     */
     @FXML
     protected void onOpenAlbumButtonClicked() throws IOException {
         Album selectedAlbum = albumListView.getSelectionModel().getSelectedItem();
@@ -132,14 +147,20 @@ public class albumsListController {
             alert.showAndWait();
         }
     }
-
+    /**
+     * This method exits the album list view controller and closes the entire app when exit button is clicked
+     * @throws IOException
+     */
     @FXML
     protected void onExitButtonClicked() throws IOException{
         allUsers.saveData();
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
     }
-
+    /**
+     * This method logs out of the current user prompting a new login when the logout button is clicked
+     * @throws IOException
+     */
     @FXML
     protected void onLogoutButtonClicked() throws IOException{
         allUsers.saveData();

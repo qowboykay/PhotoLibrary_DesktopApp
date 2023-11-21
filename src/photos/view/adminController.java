@@ -31,11 +31,16 @@ public class adminController {
     private Scene scene;
     private AllUsers allUsers;
 
-
+    /**
+     * This method is the constructor for admin controller
+     * @param allUsers
+     */
     public adminController(AllUsers allUsers) {
         this.allUsers = allUsers;
     }
-
+    /**
+     * This method is used to initalize when the admin controller is opened
+     */
     @FXML
     public void initialize(){
         ObservableList<User> users = FXCollections.observableArrayList(allUsers.getUserList().stream()
@@ -82,7 +87,12 @@ public class adminController {
         createUserStage.showAndWait();
 
     }
-
+    /**
+     * This method handles new users created from createUser and makes sure that non of the users already exist
+     * @param username
+     * @param password
+     * @throws IOException
+     */
     public void handleNewUser(String username ,String password) throws IOException{
        boolean userExists = allUsers.getUserList().stream().anyMatch(user -> user.getUsername().equals(username));
        if(userExists){
@@ -98,7 +108,10 @@ public class adminController {
        }
 
     }
-
+    /**
+     * This method is used to delete the specified user selected
+     * @throws IOException
+     */
     @FXML
     protected void onDeleteUserButtonClicked() throws IOException {
         User selectedUser = userListView.getSelectionModel().getSelectedItem();
@@ -107,14 +120,20 @@ public class adminController {
         allUsers.saveData();
         
     }
-
+    /**
+     * This method is used to exit the admin controller, once the exit button is clicked
+     * @throws IOException
+     */
     @FXML
     protected void onExitButtonClicked() throws IOException{
         allUsers.saveData();
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
     }
-
+    /**
+     * THis method is initiated once the logout button is clicked. It closes the current admin controller and opens the login controller
+     * @throws IOException
+     */
     @FXML
     protected void onLogoutButtonClicked() throws IOException{
         allUsers.saveData();
