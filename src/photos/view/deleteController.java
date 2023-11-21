@@ -23,25 +23,38 @@ public class deleteController {
     public deleteController(){
 
     }
-    
+    /**
+     * This method is the constructor for the delete controller and takes an observable list
+     * @param destinationPictures
+     */
     public deleteController(ObservableList<Picture> destinationPictures) {
         this.destinationPictures = destinationPictures;
     }
-    
+    /**
+     * This method sets the current album in the delete controller
+     * @param currentAlbum
+     */
     public void setCurrentAlbum(Album currentAlbum){
         this.currentAlbum = currentAlbum;
     }
-
+    /**
+     * This method sets the destination pictures and loads the combobox properly
+     * @param destinationPictures
+     */
     public void setDestinationPictures(ObservableList<Picture> destinationPictures) {
         this.destinationPictures = destinationPictures;
         destinationPictureComboBox.setItems(destinationPictures); // Update the ComboBox here
     }
-
+    /**
+     * This method is initialized when the delete controller is opened
+     */
     @FXML
     private void initialize() {
             destinationPictureComboBox.setItems(destinationPictures);
     }
-    
+    /**
+     * This method is deletes the picture selected from the combobox
+     */
     @FXML
     private void onDeleteButtonClicked() {
         selectedPicture = destinationPictureComboBox.getValue();
@@ -58,12 +71,17 @@ public class deleteController {
         }
         stage.close();
     }
-    
+    /**
+     * This method runs when the cancel button is clicked and closes the stage
+     */
     @FXML
     private void onCancelButtonClicked() {
         stage.close();
     }
-    
+    /**
+     * This method sets the stage for the delete controller 
+     * @param stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }

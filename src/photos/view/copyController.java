@@ -24,29 +24,45 @@ public class copyController {
     public copyController(){
 
     }
-    
+    /**
+     * This method is the constructor for copy controller and takes an observable list
+     * @param destinationAlbums
+     */
     public copyController(ObservableList<Album> destinationAlbums) {
         this.destinationAlbums = destinationAlbums;
     }
-    
+    /**
+     * This method sets the current picture for the copy controller
+     * @param currentPic
+     */
     public void setCurrentPic(Picture currentPic){
         this.currentPic = currentPic;
     }
-    
+    /**
+     * This method sets the current album for the copy controller
+     * @param currentAlbum
+     */
     public void setCurrentAlbum(Album currentAlbum){
         this.currentAlbum = currentAlbum;
     }
-
+    /**
+     * This method sets the destination album and updates the associated combobox
+     * @param destinationAlbums
+     */
     public void setDestinationAlbums(ObservableList<Album> destinationAlbums) {
         this.destinationAlbums = destinationAlbums;
         destinationAlbumComboBox.setItems(destinationAlbums); // Update the ComboBox here
     }
-
-    @FXML
+    /**
+     * This method initializes when the copy controller is opened
+     */
+    @FXML 
     private void initialize() {
             destinationAlbumComboBox.setItems(destinationAlbums);
     }
-    
+    /**
+     *  Thus method copies the photo to the corrected selected album when the copy button is clicked
+     * */ 
     @FXML
     private void onCopyButtonClicked() {
        selectedAlbum = destinationAlbumComboBox.getValue();
@@ -61,12 +77,17 @@ public class copyController {
         }
         stage.close();
     }
-    
+    /**
+     * This method runs when the cancel button is clicked and closes the stage
+     */
     @FXML
     private void onCancelButtonClicked() {
         stage.close();
     }
-    
+    /**
+     * This method sets the stage of the copy controller 
+     * @param stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }

@@ -18,11 +18,17 @@ public class createUserController {
     public createUserController(){
 
     }
-
+    /**
+     * This method sets the admincontrollers for the create users controller 
+     * @param adminController
+     */
     public void setAdminController(adminController adminController) {
         this.admin = adminController;
     }
-
+    /**
+     * This method creates a new user with the specified username and password that have been input into the text fields
+     * @throws IOException
+     */
     @FXML
     protected void onCreateUserButtonClicked() throws IOException{
         String username = usernameField.getText();
@@ -41,7 +47,9 @@ public class createUserController {
 
         }
     }
-
+    /**
+     * This method runs when the cancel button is clicked and cloeses the stage
+     */
     @FXML
     protected void onCancelButtonClicked(){
         usernameField.getScene().getWindow().hide();
