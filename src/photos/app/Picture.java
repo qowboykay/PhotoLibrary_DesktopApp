@@ -20,7 +20,13 @@ public class Picture implements Serializable {
     private Date creationDate;  // New field for the creation date
     private transient Image image;  // JavaFX Image, marked as transient for serialization
 
-
+    /**
+     * Constructs a new Picture object with specified path and caption.
+     *
+     * @param picturePath The file path of the picture.
+     * @param caption     The caption of the picture.
+     * @throws IOException If there is an issue loading the picture from the path.
+     */
     public Picture(String picturePath, String caption) throws IOException {
         this.picturePath = picturePath;
         this.caption = caption;
@@ -85,6 +91,13 @@ public class Picture implements Serializable {
     public String toString() {
         return caption;
     }
+
+    /**
+     * Loads the image from the specified file path and converts it to a JavaFX Image.
+     *
+     * @param filePath The path to the image file.
+     * @throws IOException If the file does not exist or is not a valid image.
+     */
     public void loadPicture(String filePath) throws IOException {
         try {
             // Check if the file exists
