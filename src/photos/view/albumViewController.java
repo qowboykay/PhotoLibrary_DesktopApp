@@ -54,28 +54,44 @@ public class albumViewController {
     private albumsListController albumsListController;
     private User currentUser;
     private boolean canceled;
-
+    /**
+     * This method is the constructor for album view controller taking only the current album as a parameter
+     * @param currentAlbum
+     */
     public albumViewController(Album currentAlbum) {
         this.currentAlbum = currentAlbum;
     }
-
+    /**
+     * This method sets the current users of the album view controller
+     * @param currentUser
+     */
     public void setCurrentUser(User currentUser){
         this.currentUser = currentUser;
     }
-
+    /**
+     * This method sets the album list controllers of the album viewer controller
+     * @param albumsListController
+     */
     public void setAlbumListController(albumsListController albumsListController){
         this.albumsListController = albumsListController;
     }
-
+    /**
+     * This method sets the current stage of the album view controller
+     * @param currentStage
+     */
     public void setStage(Stage currentStage){
         this.currentStage = currentStage;
     }
-
+    /**
+     * This method initializes when the album view controller is opened displaying all the pictures in the current album
+     */
     @FXML
     private void initialize() {
         displayPictures();
     }
-
+    /**
+     * This method prints all the pictures in the current album by creating new image views and adding them to a vbox
+     */
     private void displayPictures() {
         int columnIndex = 0;
         int rowIndex = 0;
@@ -96,7 +112,9 @@ public class albumViewController {
             }
         }
     }
-
+    /**
+     * This method create a new image based on the picture path given from the picture and ensures that picture controller is opened when a picture is clicked
+     */
     private ImageView createImageView(Picture picture) {
         ImageView imageView = new ImageView();
         imageView.setFitWidth(100); // Adjust the size as needed
@@ -111,7 +129,9 @@ public class albumViewController {
 
         return imageView;
     }
-
+    /**
+     * This method opens a new picture controller to show the specific details associated with each picture in the album
+     */
     private void showPictureDetails(Picture picture, Album currentAlbum) {
         pictureDetailsStage = new Stage();
         pictureDetailsStage.setTitle("Picture Details");
@@ -134,7 +154,10 @@ public class albumViewController {
         }
     }
     
-
+    /**
+     * This method closes the album view controller and opents the album list controller
+     * @throws IOException
+     */
     @FXML
     protected void onBackButtonClicked() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/photos/view/albumsList.fxml"));
@@ -146,7 +169,9 @@ public class albumViewController {
         currentStage.centerOnScreen();
         currentStage.show();
     }
-
+    /**
+     * This album updates the view when a new picture is added, deleted, renamed, moved, coped, and searched
+     */
     public void updateAlbumView() {
         FXMLLoader newLoader = new FXMLLoader(getClass().getResource("/photos/view/albumView.fxml"));
         albumViewController newController = new albumViewController(currentAlbum);
@@ -172,7 +197,10 @@ public class albumViewController {
         newStage.setTitle("Welcome to" + " " + currentAlbum.getAlbumName() + " " + "");
         newStage.show();
     }
-
+    /**
+     * This method enables the recaptioning of pictures in the current album when the speficied picture is clicked in the list
+     * @throws IOException
+     */
     @FXML 
     private void onRecaptionButtonClicked() throws IOException{
         ObservableList<Picture> albumPics = FXCollections.observableArrayList(currentAlbum.returnPictures());
@@ -188,7 +216,9 @@ public class albumViewController {
         recaptionStage.showAndWait();  
         updateAlbumView();    
     }
-
+    /**
+     * This method opens a new search controller when the search button is clicked 
+     */
     @FXML
     private void onSearchButtonClicked() {
         try {
@@ -228,7 +258,9 @@ public class albumViewController {
         }
     }
 
-
+    /**
+     * This method opens up the users files and allows the user to add a picture with the appropriate extensions
+     */
     @FXML
     private void onAddButtonClicked() {
         FileChooser fileChooser = new FileChooser();
@@ -258,7 +290,10 @@ public class albumViewController {
         }
     }
 
-
+    /**
+     * This method is used when the delete button clicked and deletes the current stage while updating the album view
+     * @throws IOException
+     */
     @FXML 
     private void onDeleteButtonClicked() throws IOException{
 
@@ -275,11 +310,17 @@ public class albumViewController {
         deleteStage.showAndWait();
         updateAlbumView();
     }
-
+    /**
+     * This method is used to check if the move was canceled
+     */
     public void isMoveCanceled(boolean move){
         canceled = move;
     }
-
+    /**
+     * This method is used to check if the picture is already in the album using a filepath
+     * @param filePath
+     * @return
+     */
     private boolean isPictureAlreadyInAlbum(String filePath) {
         // Normalize the file paths before comparison
     String normalizedFilePath = new File(filePath).getAbsolutePath().toLowerCase();
