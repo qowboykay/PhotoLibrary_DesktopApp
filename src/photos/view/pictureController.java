@@ -113,8 +113,13 @@ public class pictureController {
                 .findFirst();
 
                 if (existingTag.isPresent()) {
+                    if (existingTag.get().getAllTagValues().stream().noneMatch(value -> value.equals(tagValue))){
                     existingTag.get().addTagValue(tagValue);
                     tagsListView.refresh();
+                    }
+                    else{
+                        showAlert(Alert.AlertType.ERROR, "Tag value already exists for the selected tag name");
+                    }
                 }
                 else{
                     Tag newTag = new Tag(tagName);
@@ -248,6 +253,9 @@ public class pictureController {
                 showAlert(Alert.AlertType.ERROR, "That tag already exists");
             }
         }
+        else{
+            showAlert(Alert.AlertType.ERROR,"When creating a new tag enter a new tag name and leave the tag value blank.");
+        }
     }
 
     private void displayPicture() {
@@ -269,12 +277,12 @@ public class pictureController {
     }
 
     private void setupDefaultTagNames(){
-            Tag bread = new Tag("animal");
+            Tag animal = new Tag("animal");
             Tag spooky = new Tag("spooky");
             Tag cute = new Tag("cute");
             Tag place = new Tag("place");
             Tag person = new Tag("person");
-            ObservableList<String> options = FXCollections.observableArrayList(bread.getTagName(),
+            ObservableList<String> options = FXCollections.observableArrayList(animal.getTagName(),
             spooky.getTagName(),cute.getTagName(),place.getTagName(),person.getTagName());
             updateOptions(options);
     }
