@@ -26,25 +26,38 @@ public class recaptionController {
     public recaptionController(){
 
     }
-    
+    /**
+     * This method is used as a constructor for recaption controller 
+     * @param destinationPictures
+     */
     public recaptionController(ObservableList<Picture> destinationPictures) {
         this.destinationPictures = destinationPictures;
     }
-    
+    /**
+     * This method is used to set the current album
+     * @param currentAlbum
+     */
     public void setCurrentAlbum(Album currentAlbum){
         this.currentAlbum = currentAlbum;
     }
-
+    /**
+     * This method is used to set the selections in the picture combobox 
+     * @param destinationPictures
+     */
     public void setDestinationPictures(ObservableList<Picture> destinationPictures) {
         this.destinationPictures = destinationPictures;
         destinationPictureComboBox.setItems(destinationPictures); // Update the ComboBox here
     }
-
+    /**
+     * This method is initialized when the recaption controller is opened 
+     */
     @FXML
     private void initialize() {
             destinationPictureComboBox.setItems(destinationPictures);
     }
-    
+    /**
+     * This method recaptions the selected photo with the new caption typed in the recaption field
+     */
     @FXML
     private void onRecaptionButtonClicked() {
         selectedPicture = destinationPictureComboBox.getValue();
@@ -63,12 +76,17 @@ public class recaptionController {
 
         stage.close();
     }
-    
+    /**
+     * This method is called when the cancel button is clicked and closes the current stage
+     */
     @FXML
     private void onCancelButtonClicked() {
         stage.close();
     }
-    
+    /**
+     * This method sets the stage
+     * @param stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }

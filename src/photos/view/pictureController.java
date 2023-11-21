@@ -80,18 +80,28 @@ public class pictureController {
     private int currentIndex;
     private User currentUser;
     private albumViewController parentController;
-
+    /**
+     * This method is the constructor for picture controller
+     * @param currentPic
+     * @param currentAlbum
+     * @param parentController
+     */
     public pictureController(Picture currentPic, Album currentAlbum,albumViewController parentController) {
         this.currentPic = currentPic;
         this.currentAlbum = currentAlbum;
         this.currentIndex = 0;
         this.parentController = parentController;
     }
-
+    /**
+     * This method is used to set the current user
+     * @param currentUser
+     */
     public void setCurrentUser(User currentUser){
         this.currentUser = currentUser;
     }
-
+    /**
+     * This method is initialized when the picture controller is opened
+     */
     @FXML 
     public void initialize(){
         setupDefaultTagNames();
@@ -100,7 +110,9 @@ public class pictureController {
         tagsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         displayPicture();
     }
-
+    /**
+     * This method is run when the add button is clicked creating a new tag with a new tag value that were specified in there respective fields
+     */
     @FXML
     private void onAddButtonClicked(){
         String tagName = tagNameField.getEditor().getText();
@@ -137,7 +149,9 @@ public class pictureController {
             showAlert(Alert.AlertType.ERROR, "One of the field is blank, please specify tag name and tag value"); 
         }
     }
-
+    /**
+     * This method deletes a tag that is selected by a user in the tagslistview
+     */
     @FXML
     private void onDeleteButtonClicked(){
         Tag selectedTag = tagsListView.getSelectionModel().getSelectedItem();
@@ -164,7 +178,10 @@ public class pictureController {
             setupDefaultTagNames();
         }
     }
-
+    /**
+     * This method is used to copy a photo from the current album to a speficied album using the copy controller
+     * @throws IOException
+     */
     @FXML
     private void onCopyButtonClicked() throws IOException{
         ObservableList<Album> userAlbums = FXCollections.observableArrayList(currentUser.getListOfUserAlbums());
@@ -181,6 +198,10 @@ public class pictureController {
 
         copyStage.showAndWait();
     }  
+    /**
+     * This method is used to move the specified picture to a selected album in the move controller 
+     * @throws IOException
+     */
     @FXML
     private void onMoveButtonClicked() throws IOException {
         ObservableList<Album> userAlbums = FXCollections.observableArrayList(currentUser.getListOfUserAlbums());
@@ -220,25 +241,34 @@ public class pictureController {
             }
         } 
     }
-
+    /**
+     * This method is activated when the return button is clicked closing the current stage
+     * @throws IOException
+     */
     @FXML
     private void onReturnButtonClicked() throws IOException{
         currentStage.close();
     }
-
+    /**
+     * This method is used to pan through the pictures currently in the album this method enables the viewing of the previous picture
+     */
     @FXML
     private void onPrevButtonClicked() {
         currentIndex = (currentIndex - 1 + currentAlbum.returnPictures().size()) % currentAlbum.returnPictures().size();
         displayPicture();
     }
-
+    /**
+     * This method is used to pan through the pictures currently in the album this method enables the viewing of the next picture
+     */
     @FXML
     private void onNextButtonClicked() {
         System.out.println("Current Index: " + currentIndex);
         currentIndex = (currentIndex + 1) % currentAlbum.returnPictures().size();
         displayPicture();
     }
-
+    /**
+     * This method is used to create a new tag button when the tag name is a new tag name and the tag value field is blank
+     */
     @FXML
     private void onNewTagButtonClicked(){
         String tagName = tagNameField.getEditor().getText();
@@ -257,7 +287,9 @@ public class pictureController {
             showAlert(Alert.AlertType.ERROR,"When creating a new tag enter a new tag name and leave the tag value blank.");
         }
     }
-
+    /**
+     * This method is used to display the pictures of the album
+     */
     private void displayPicture() {
         if (!currentAlbum.returnPictures().isEmpty()) {
             currentPic = currentAlbum.returnPictures().get(currentIndex);
@@ -275,7 +307,9 @@ public class pictureController {
         }
 
     }
-
+    /**
+     * This method is used to setup default tags for when the user wants to add a tag
+     */
     private void setupDefaultTagNames(){
             Tag animal = new Tag("animal");
             Tag spooky = new Tag("spooky");
@@ -286,25 +320,39 @@ public class pictureController {
             spooky.getTagName(),cute.getTagName(),place.getTagName(),person.getTagName());
             updateOptions(options);
     }
-
+    /**
+     * This method updates the possible options in the combobox
+     * @param newOptions
+     */
     private void updateOptions(ObservableList<String> newOptions){
         options = newOptions;
         tagNameField.setItems(options);
     }
-
+    /**
+     * This method is used for creating alerts
+     * @param type
+     * @param content
+     */
     private void showAlert(Alert.AlertType type, String content) {
     Alert alert = new Alert(type, content, ButtonType.OK);
     alert.showAndWait();
     }
-
+    /**This method is used to set the current stage 
+     * 
+    */
     public void setStage(Stage currentStage){
         this.currentStage = currentStage;
     }
-
+    /**
+     * This method is used to set thet parent stage
+     * @param parentStage
+     */
     public void setParentStage(Stage parentStage){
         this.parentStage = parentStage;
     }
-
+    /**
+     * This method updates the parent controller
+     */
     private void updateParentView() {
         parentController.updateAlbumView();
     }
