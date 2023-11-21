@@ -34,7 +34,11 @@ public class loginController {
     public loginController(){
         allUsers = new AllUsers();
     }
-
+    /**
+     * This method handles the login button being pressed
+     * @param event
+     * @throws Exception
+     */
     @FXML
     private void handleLoginButtonAction(ActionEvent event) throws Exception{
         initialize();

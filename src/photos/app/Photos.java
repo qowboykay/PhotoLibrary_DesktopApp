@@ -8,6 +8,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * @author Brayan Dominguez Quintero
+ * @author Rahul Kayithi
+ */
 public class Photos extends Application {
 
     @Override
